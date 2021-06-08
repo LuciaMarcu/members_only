@@ -1,0 +1,36 @@
+<div>
+    <% if user_signed_in?%>
+        <article class="media box">        
+            <div class="media-content">
+                <%= render 'posts/form' %>
+            </div>        
+        </article>
+    <%end%>
+    <% @posts.each do |post|%>
+        <div class="box">
+            <article class="media">                
+                <div class="media-content">
+                    <div class="content">
+                        <% if user_signed_in?%>
+                            <strong><%= post.user.name %></strong><br />
+                            <small><%= post.user.username %></small><br/>                        
+                        <%end%>
+                            <p><%= post.post %></p>                    
+                    </div>
+                </div>
+                <% if user_signed_in? && current_user.id == post.user_id %>
+                    <nav class="level">
+                        <div class="level-left is-mobile">                            
+                            <%= link_to edit_post_path(post), class: "level-item" do %>
+                                <p class="control has-text-grey">Edit</p>
+                            <%end%>
+                            <%= link_to post, method: :delete, data: {confirm: "Are you sure you want to delete this post?"} do %>
+                                 <p class="control has-text-grey">Delete</p>
+                            <%end%>
+                        </div>
+                    </nav>
+                <%end%>
+            </article>
+        </div>         
+    <% end %>
+</div>  
